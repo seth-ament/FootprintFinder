@@ -1,0 +1,9 @@
+Package: FootprintFinder
+Title: Ensemble learning of TF binding sites
+Version: 0.01
+Date: 2016-5-16
+Author: Seth Ament
+Maintainer: Seth Ament <seth.ament@systemsbiology.org>
+Description: apply machine learning algorithms to predict TFBSs from various training data
+Requires: caret, doBy, TReNA, GenomicRanges
+License: GPL-2
