@@ -56,24 +56,6 @@ m = match( unique(loc) , x$loc )
 max.score.wellington = x$score.wellington[ m ]
 
 
-###### ChIP-seq (gold standard) #######
-
-cat( "loading ChIP-seq\n" )
-# ChIP-seq peaks for tf (in lymphoblasts)
-chipfile = paste( "/proj/price1/sament/lymphoblast_trn/known_tfbs/hg38_train/", tf , "_lymphoblast_binding_sites.bed.hg38.bed" , sep="" )
-chip.tf = read.table(chipfile)[,1:4]
-colnames(chip.tf) = c("chrom","start","end","tfs")
-chip.gr = makeGRangesFromDataFrame( chip.tf )
-# matches to ChIP (true/false positives)
-hasChIP = countOverlaps( fp.gr.uniq , chip.gr , maxgap = 100 )
-hasChIP = hasChIP > 0
-
-# y is the outcome variable for prediction
-y = rep(NA,length(hasChIP))
-y[ hasChIP == TRUE ] = "yesChIP"
-y[ hasChIP == FALSE ] = "noChIP"
-y = factor(y)
-
 ####### phastCons ########
 
 cat( "loading phastCons\n" )
@@ -139,7 +121,6 @@ closeDatabaseConnections(fp)
 cat( "assembling feature matrix\n" )
 features = data.frame( 
 	footprints.uniq ,
-	y ,
 	min.p.fimo , 
 	max.score.wellington ,
 	fp.chromStates , 

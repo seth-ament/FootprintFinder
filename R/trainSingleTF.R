@@ -6,6 +6,9 @@ require( doMC )
 require( pROC )
 registerDoMC( cores = 10 )
 
+source("/proj/price1/sament/lymphoblast_trn/FootprintFinder/R/assembleFeatureMatrix.R")
+
+
 tflist = Sys.glob("/proj/price1/sament/lymphoblast_trn/known_tfbs/hg38_train/*.bed")
 tflist = gsub("/proj/price1/sament/lymphoblast_trn/known_tfbs/hg38_train/","",tflist)
 tflist = gsub("\\_(.*)" , "" , tflist )
@@ -16,6 +19,8 @@ cat( "############Working on" , tf , "###########\n" )
 
 cat("Assembling feature matrix\n")
 features = assembleFeatureMatrix( tf )
+
+if( is.null(features) ) next
 
 save( features ,  file=paste( "FeatureMatrix/" , tf , "_feature_matrix.RData" , sep = "" ))
 
