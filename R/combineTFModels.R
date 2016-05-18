@@ -102,6 +102,22 @@ for( tf in tflist ) {
 	specificity.median = specificity.median )
 }
 dev.off()
+ 
+save( performance.metrics , file= "ensemble.classification.performance.metrics.43tfs.RData" )
+
+
+auc.median = rep(NA,length(performance.metrics))
+auc.train = rep(NA,length(performance.metrics))
+auc.fimo = rep(NA,length(performance.metrics))
+auc.wellington = rep(NA,length(performance.metrics))
+for( i in 1:length( performance.metrics ) ) {
+  auc.median[i] = performance.metrics[[i]]$auc.median
+  auc.train[i] = performance.metrics[[i]]$auc.train
+  auc.fimo[i] = performance.metrics[[i]]$auc.fimo
+  auc.wellington[i] = performance.metrics[[i]]$auc.wellington
+}
+
+auc.res = data.frame( tflist , auc.train , auc.median , auc.fimo , auc.wellington )
 
 
 quintiles.batf = t( sapply( 1:nrow(predictions) ,

@@ -9,11 +9,17 @@ registerDoMC( cores = 10 )
 source("/proj/price1/sament/lymphoblast_trn/FootprintFinder/R/assembleFeatureMatrix.R")
 
 
-tflist = Sys.glob("/proj/price1/sament/lymphoblast_trn/known_tfbs/hg38_train/*.bed")
-tflist = gsub("/proj/price1/sament/lymphoblast_trn/known_tfbs/hg38_train/","",tflist)
+tflist = Sys.glob("/proj/price1/sament/lymphoblast_trn/known_tfbs/hg38/*.bed")
+tflist = gsub("/proj/price1/sament/lymphoblast_trn/known_tfbs/hg38/","",tflist)
 tflist = gsub("\\_(.*)" , "" , tflist )
 
 for( tf in tflist ) {
+
+donetfs = Sys.glob("/proj/price1/sament/lymphoblast_trn/SingleTFModels/*.RData")
+donetfs = gsub("/proj/price1/sament/lymphoblast_trn/SingleTFModels/","",donetfs)
+donetfs = gsub("_gbm_model.RData","",donetfs)
+
+if( tf %in% donetfs ) next
 
 cat( "############Working on" , tf , "###########\n" )
 
@@ -27,12 +33,6 @@ save( features ,  file=paste( "FeatureMatrix/" , tf , "_feature_matrix.RData" , 
 y = features$y
 
 x = features[,-c(1:4)]
-
-#inTrain = createDataPartition( y = y , p = 0.75 , list = FALSE )
-#x.train = features[ inTrain , -c(1:4) ]
-#x.test = features[ -inTrain , -c(1:4) ]
-#y.train = y[ inTrain ]
-#y.test = y[ -inTrain ]
 
 cat("fitting model\n")
 ctrl = trainControl( method = "repeatedcv" ,

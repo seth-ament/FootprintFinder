@@ -60,7 +60,7 @@ max.score.wellington = x$score.wellington[ m ]
 
 cat( "loading ChIP-seq\n" )
 # ChIP-seq peaks for tf (in lymphoblasts)
-chipfile = paste( "/proj/price1/sament/lymphoblast_trn/known_tfbs/hg38_train/", tf , "_lymphoblast_binding_sites.bed.hg38.bed" , sep="" )
+chipfile = paste( "/proj/price1/sament/lymphoblast_trn/known_tfbs/hg38/", tf , "_lymphoblast_binding_sites.bed.hg38.bed" , sep="" )
 chip.tf = read.table(chipfile)[,1:4]
 colnames(chip.tf) = c("chrom","start","end","tfs")
 chip.gr = makeGRangesFromDataFrame( chip.tf )
